@@ -1,36 +1,36 @@
-import { Component } from 'react'
+import { useState } from 'react'
 import { Card } from 'react-bootstrap'
 // import CommentArea from './CommentArea'
 
-class SingleBook extends Component {
-  // state = {
-  //   selected: false,
-  // }
+const SingleBook = ({ book, selectedBook, changeSelectedBook }) => {
+  // Inizialmente il libro non è selezionato
+  const [selected, setSelected] = useState(false)
 
-  render() {
-    return (
-      <>
-        <Card
-          // onClick={() => this.setState({ selected: !this.state.selected })}
-          onClick={() => this.props.changeSelectedBook(this.props.book.asin)}
-          style={{
-            border:
-              this.props.selectedBook === this.props.book.asin
-                ? '3px solid red'
-                : 'none',
-          }}
-        >
-          <Card.Img variant="top" src={this.props.book.img} />
-          <Card.Body>
-            <Card.Title style={{ color: 'black' }}>
-              {this.props.book.title}
-            </Card.Title>
-          </Card.Body>
-        </Card>
-        {/* {this.state.selected && <CommentArea asin={this.props.book.asin} />} */}
-      </>
-    )
+  const handleCardClick = () => {
+    // Cambia lo stato locale per mostrare o nascondere CommentArea (se la usi)
+    setSelected(!selected)
+    // Notifica al componente genitore quale libro è selezionato
+    changeSelectedBook(book.asin)
   }
+
+  return (
+    <>
+      <Card
+        onClick={handleCardClick}
+        style={{
+          border: selectedBook === book.asin ? '3px solid red' : 'none',
+          cursor: 'pointer',
+        }}
+      >
+        <Card.Img variant="top" src={book.img} />
+        <Card.Body>
+          <Card.Title style={{ color: 'black' }}>{book.title}</Card.Title>
+        </Card.Body>
+      </Card>
+
+      {/* {selected && <CommentArea asin={book.asin} />} */}
+    </>
+  )
 }
 
 export default SingleBook
